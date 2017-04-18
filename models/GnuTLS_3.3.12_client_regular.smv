@@ -159,4 +159,14 @@ LTLSPEC (inp = ClientHelloRSA -> (out = ServerHello_Certificate#CertificateReque
 -- Data can't be exchanged before ChangeCipherSpec
 LTLSPEC G ((inp = ApplicationData & out = ApplicationData) -> H(inp = ChangeCipherSpec & out = ChangeCipherSpec & inp = Finished))
 
+-- The ChangeCipherSpec message is sent during the handshake after the security parameters have been agreed upon, but before the verifying Finished message is sent.
+LTLSPEC G ((inp = ChangeCipherSpec) -> Y(inp = ClientKeyExchange) & !H(inp = finished))
 
+-- Client Certificate is the first message the client can send after receiving a ServerHelloDone message.  This message is only sent if the server requests a certificate.
+LTLSPEC G ((inp = EmptyCertificate) -> Y(out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
+
+-- Client Key Exchange Message must immediately follow Client certificate if it is sent or ServerHelloDone otherwise. (do I need to include all variants of ServerHelloDone?)
+LTLSPEC G ((inp = ClientKeyExchange) -> Y(inp = EmptyCertificate | out = ServerHelloDone))
+
+-- It is essential that a change cipher spec message be received between the other handshake messages and the Finished message.(It is a fatal error if a Finished message is not preceded by a ChangeCipherSpec message at the appropriate point in the handshake.)
+LTLSPEC G((inp = Finished) & !Y(inp = ChangeCipherSpec) -> (out = Alert_Fatal_Unexpected_message#ConnectionClosed))
