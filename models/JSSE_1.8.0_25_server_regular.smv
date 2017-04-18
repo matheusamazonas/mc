@@ -1,7 +1,7 @@
 MODULE main
 VAR state : {s0,s1,s2,s3,s4,s5,s6,s7,s8};
 inp : {ChangeCipherSpec, ClientKeyExchange, HeartbeatRequest, ApplicationData, EmptyCertificate, Finished, ClientHelloRSA, ApplicationDataEmpty};
-out : {Alert_Fatal_Unexpected_message_ConnectionClosed, ConnectionClosed, Empty, ApplicationData, Alert_Fatal_Handshake_failure_ConnectionClosed, ServerHello_Certificate_ServerHelloDone, Alert_Fatal_Bad_record_MAC_ConnectionClosed, Alert_Fatal_Internal_error_ConnectionClosed, ChangeCipherSpec_Finished, ChangeCipherSpecDecryption_failed};
+out : {Alert_Fatal_Unexpected_message_ConnectionClosed, ConnectionClosed, Empty, ApplicationData, Alert_Fatal_Handshake_failure_ConnectionClosed, ServerHello_Certificate_ServerHelloDone, Alert_Fatal_Bad_record_MAC_ConnectionClosed, Alert_Fatal_Internal_error#ConnectionClosed, ChangeCipherSpec_Finished, ChangeCipherSpecDecryption_failed};
 ASSIGN
 init(state) := s0;
 next(state) := case
@@ -85,7 +85,7 @@ state = s0 & inp = ChangeCipherSpec: Alert_Fatal_Unexpected_message_ConnectionCl
 state = s0 & inp = ClientHelloRSA: ServerHello_Certificate_ServerHelloDone;
 state = s0 & inp = ClientKeyExchange: Alert_Fatal_Unexpected_message_ConnectionClosed;
 state = s0 & inp = EmptyCertificate: Alert_Fatal_Unexpected_message_ConnectionClosed;
-state = s0 & inp = Finished: Alert_Fatal_Internal_error_ConnectionClosed;
+state = s0 & inp = Finished: Alert_Fatal_Internal_error#ConnectionClosed;
 state = s0 & inp = HeartbeatRequest: Alert_Fatal_Unexpected_message_ConnectionClosed;
 state = s1 & inp = ApplicationData: Alert_Fatal_Unexpected_message_ConnectionClosed;
 state = s1 & inp = ApplicationDataEmpty: Alert_Fatal_Unexpected_message_ConnectionClosed;
@@ -107,7 +107,7 @@ state = s3 & inp = ApplicationData: Alert_Fatal_Unexpected_message_ConnectionClo
 state = s3 & inp = ApplicationDataEmpty: Alert_Fatal_Unexpected_message_ConnectionClosed;
 state = s3 & inp = ChangeCipherSpec: Empty;
 state = s3 & inp = ClientHelloRSA: ServerHello_Certificate_ServerHelloDone;
-state = s3 & inp = ClientKeyExchange: Alert_Fatal_Internal_error_ConnectionClosed;
+state = s3 & inp = ClientKeyExchange: Alert_Fatal_Internal_error#ConnectionClosed;
 state = s3 & inp = EmptyCertificate: Alert_Fatal_Unexpected_message_ConnectionClosed;
 state = s3 & inp = Finished: ChangeCipherSpec_Finished;
 state = s3 & inp = HeartbeatRequest: Empty;
@@ -123,7 +123,7 @@ state = s5 & inp = ApplicationData: Alert_Fatal_Unexpected_message_ConnectionClo
 state = s5 & inp = ApplicationDataEmpty: Alert_Fatal_Unexpected_message_ConnectionClosed;
 state = s5 & inp = ChangeCipherSpec: Alert_Fatal_Unexpected_message_ConnectionClosed;
 state = s5 & inp = ClientHelloRSA: ServerHello_Certificate_ServerHelloDone;
-state = s5 & inp = ClientKeyExchange: Alert_Fatal_Internal_error_ConnectionClosed;
+state = s5 & inp = ClientKeyExchange: Alert_Fatal_Internal_error#ConnectionClosed;
 state = s5 & inp = EmptyCertificate: Alert_Fatal_Unexpected_message_ConnectionClosed;
 state = s5 & inp = Finished: ChangeCipherSpec_Finished;
 state = s5 & inp = HeartbeatRequest: Empty;
@@ -133,7 +133,7 @@ state = s6 & inp = ChangeCipherSpec: Alert_Fatal_Unexpected_message_ConnectionCl
 state = s6 & inp = ClientHelloRSA: Alert_Fatal_Handshake_failure_ConnectionClosed;
 state = s6 & inp = ClientKeyExchange: Alert_Fatal_Unexpected_message_ConnectionClosed;
 state = s6 & inp = EmptyCertificate: Alert_Fatal_Unexpected_message_ConnectionClosed;
-state = s6 & inp = Finished: Alert_Fatal_Internal_error_ConnectionClosed;
+state = s6 & inp = Finished: Alert_Fatal_Internal_error#ConnectionClosed;
 state = s6 & inp = HeartbeatRequest: Empty;
 state = s7 & inp = ApplicationData: Alert_Fatal_Bad_record_MAC_ConnectionClosed;
 state = s7 & inp = ApplicationDataEmpty: Alert_Fatal_Bad_record_MAC_ConnectionClosed;
