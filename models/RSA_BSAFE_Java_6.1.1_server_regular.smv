@@ -104,3 +104,48 @@ state = 5 & inp = EmptyCertificate: ConnectionClosed;
 state = 5 & inp = Finished: ConnectionClosed;
 state = 5 & inp = HeartbeatRequest: ConnectionClosed;
 esac;
+
+---------------------------------------------------------------------------
+-- REQUIREMENTS                                                          --
+---------------------------------------------------------------------------
+
+-- Once a connection is closed, is remaisn always closed
+LTLSPEC G ((out = ConnectionClosed) -> X (out = ConnectionClosed))
+
+
+-- A Fatal Alert must be honored and close the connection
+LTLSPEC G ((out = Alert_Fatal_Unexpected_message#ConnectionClosed) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Internal_error#ConnectionClosed) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Handshake_failure#ConnectionClosed) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Record_overflow#ConnectionClosed) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Illegal_parameter#ConnectionClosed) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Unexpected_message_Alert_Warning_Close_notify#ConnectionClosed) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Handshake_failure_Alert_Warning_No_renegotiation_Alert_Warning_Close_notify#ConnectionClosed) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Bad_record_MAC#ConnectionClosed) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Unexpected_message_Alert_Warning_Close_notify_) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Decrypt_error#ConnectionClosed) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Unexpected_message_Alert_Warning_Close_notify_) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Unexpected_message_) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Bad_record_MAC_) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Illegal_parameter_) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Illegal_parameter_Alert_Warning_Close_notify_) -> X (out = ConnectionClosed))
+LTLSPEC G ((out = Alert_Fatal_Internal_error_) -> X (out = ConnectionClosed))
+
+-- The client sends a ClientHello message to which the server must respond with a ServerHello message, or else a fatal error will occur and the connection will fail.
+LTLSPEC (inp = ClientHelloRSA -> ((out = ServerHello_Certificate#CertificateRequest#ServerHelloDone | out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello#Certificate#ServerHelloDone) | out = Alert_Fatal_Unexpected_message#ConnectionClosed))
+
+
+-- Data can't be exchanged before ChangeCipherSpec
+LTLSPEC G ((inp = ApplicationData & out = ApplicationData) -> H(inp = ChangeCipherSpec & out = ChangeCipherSpec & inp = Finished))
+
+-- The ChangeCipherSpec message is sent during the handshake after the security parameters have been agreed upon, but before the verifying Finished message is sent.
+LTLSPEC G (!((inp = ChangeCipherSpec) -> (Y(inp = ClientKeyExchange) & !O(inp = Finished))) -> (out = ConnectionClosed | out = Alert_Fatal_Unexpected_message#ConnectionClosed))
+
+-- Client Certificate is the first message the client can send after receiving a ServerHelloDone message.  This message is only sent if the server requests a certificate.
+LTLSPEC G ((inp = EmptyCertificate) -> Y(out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
+
+-- Client Key Exchange Message must immediately follow Client certificate if it is sent or ServerHelloDone otherwise.
+LTLSPEC G ((inp = ClientKeyExchange) -> Y(inp = EmptyCertificate | out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
+
+-- It is essential that a change cipher spec message be received between the other handshake messages and the Finished message.(It is a fatal error if a Finished message is not preceded by a ChangeCipherSpec message at the appropriate point in the handshake.)
+LTLSPEC G((inp = Finished & (out = HandshakeClientKeyExchangeChangeCipherSpec#Finished | out = HandshakeCertificateHandshakeClientKeyExchangeHandshakeCertificateVerifyChangeCipherSpec#Finished | out = ChangeCipherSpec#Finished)) & !Y(inp = ChangeCipherSpec) -> (out = Alert_Fatal_Unexpected_message#ConnectionClosed))
