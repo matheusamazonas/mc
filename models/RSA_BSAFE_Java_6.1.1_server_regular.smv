@@ -136,16 +136,16 @@ LTLSPEC (inp = ClientHelloRSA -> ((out = ServerHello_Certificate#CertificateRequ
 
 
 -- Data can't be exchanged before ChangeCipherSpec
-LTLSPEC G ((inp = ApplicationData & out = ApplicationData) -> H(inp = ChangeCipherSpec & out = ChangeCipherSpec & inp = Finished))
+LTLSPEC G ((inp = ApplicationData & out = ApplicationData) -> O(inp = ChangeCipherSpec & out = ChangeCipherSpec & inp = Finished))
 
 -- The ChangeCipherSpec message is sent during the handshake after the security parameters have been agreed upon, but before the verifying Finished message is sent.
-LTLSPEC G (!((inp = ChangeCipherSpec) -> (Y(inp = ClientKeyExchange) & !O(inp = Finished))) -> (out = ConnectionClosed | out = Alert_Fatal_Unexpected_message#ConnectionClosed))
+LTLSPEC G ( ((inp = ChangeCipherSpec & out = Empty -> (O(inp = ClientKeyExchange) & !O(inp = Finished)))) | out = Alert_Fatal_Unexpected_message#ConnectionClosed | out = ConnectionClosed)
 
 -- Client Certificate is the first message the client can send after receiving a ServerHelloDone message.  This message is only sent if the server requests a certificate.
 LTLSPEC G ((inp = EmptyCertificate  & out = Empty) -> Y(out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
 
 -- Client Key Exchange Message must immediately follow Client certificate if it is sent or ServerHelloDone otherwise.
-LTLSPEC G ((inp = ClientKeyExchange) -> Y(inp = EmptyCertificate | out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
+LTLSPEC G ((inp = ClientKeyExchange & out = Empty) -> Y((inp = EmptyCertificate & out = Empty)| out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
 
 -- It is essential that a change cipher spec message be received between the other handshake messages and the Finished message.(It is a fatal error if a Finished message is not preceded by a ChangeCipherSpec message at the appropriate point in the handshake.)
 LTLSPEC G((inp = Finished & (out = HandshakeClientKeyExchangeChangeCipherSpec#Finished | out = HandshakeCertificateHandshakeClientKeyExchangeHandshakeCertificateVerifyChangeCipherSpec#Finished | out = ChangeCipherSpec#Finished)) & !Y(inp = ChangeCipherSpec) -> (out = Alert_Fatal_Unexpected_message#ConnectionClosed))
