@@ -145,7 +145,7 @@ LTLSPEC G ( ((inp = ChangeCipherSpec & out = Empty -> (O(inp = ClientKeyExchange
 LTLSPEC G ((inp = EmptyCertificate  & out = Empty) -> Y(out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
 
 -- Client Key Exchange Message must immediately follow Client certificate if it is sent or ServerHelloDone otherwise.
-LTLSPEC G ((inp = ClientKeyExchange & out = Empty) -> Y((inp = EmptyCertificate & out = Empty)| out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
+LTLSPEC G ((inp = ClientKeyExchange & out = Empty) -> Y((inp = EmptyCertificate & out = Empty)| out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone | out = ServerHello#Certificate#ServerHelloDone)) | out = Alert_Fatal_Unexpected_message#ConnectionClosed
 
 -- It is essential that a change cipher spec message be received between the other handshake messages and the Finished message.(It is a fatal error if a Finished message is not preceded by a ChangeCipherSpec message at the appropriate point in the handshake.)
-LTLSPEC G((inp = Finished & (out = HandshakeClientKeyExchangeChangeCipherSpec#Finished | out = HandshakeCertificateHandshakeClientKeyExchangeHandshakeCertificateVerifyChangeCipherSpec#Finished | out = ChangeCipherSpec#Finished)) & !Y(inp = ChangeCipherSpec) -> (out = Alert_Fatal_Unexpected_message#ConnectionClosed))
+LTLSPEC G((inp = Finished & (out = HandshakeClientKeyExchangeChangeCipherSpec#Finished | out = HandshakeCertificateHandshakeClientKeyExchangeHandshakeCertificateVerifyChangeCipherSpec#Finished | out = ChangeCipherSpec#Finished)) & !O(inp = ChangeCipherSpec) -> (out = Alert_Fatal_Unexpected_message#ConnectionClosed))
