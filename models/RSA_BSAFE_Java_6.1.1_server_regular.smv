@@ -142,7 +142,7 @@ LTLSPEC G ((inp = ApplicationData & out = ApplicationData) -> H(inp = ChangeCiph
 LTLSPEC G (!((inp = ChangeCipherSpec) -> (Y(inp = ClientKeyExchange) & !O(inp = Finished))) -> (out = ConnectionClosed | out = Alert_Fatal_Unexpected_message#ConnectionClosed))
 
 -- Client Certificate is the first message the client can send after receiving a ServerHelloDone message.  This message is only sent if the server requests a certificate.
-LTLSPEC G ((inp = EmptyCertificate) -> Y(out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
+LTLSPEC G ((inp = EmptyCertificate  & out = Empty) -> Y(out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))
 
 -- Client Key Exchange Message must immediately follow Client certificate if it is sent or ServerHelloDone otherwise.
 LTLSPEC G ((inp = ClientKeyExchange) -> Y(inp = EmptyCertificate | out = ServerHello#Certificate#ServerKeyExchange#CertificateRequest#ServerHelloDone | out = ServerHello_Certificate#CertificateRequest#ServerHelloDone))

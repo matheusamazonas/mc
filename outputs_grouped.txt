@@ -43,3 +43,7 @@
  
  Server Finished:
  (out = HandshakeClientKeyExchangeChangeCipherSpec#Finished | out = HandshakeCertificateHandshakeClientKeyExchangeHandshakeCertificateVerifyChangeCipherSpec#Finished | out = ChangeCipherSpec#Finished)
+ 
+ Unexpected message:
+ 
+ Alert_Fatal_Unexpected_message#ConnectionClosed
