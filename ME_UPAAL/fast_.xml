@@ -111,7 +111,7 @@ set_y = true</label>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id2"/>
-			<label kind="guard" x="-102" y="-102">y == pid</label>
+			<label kind="guard" x="-153" y="-102">y == pid and set_y</label>
 			<label kind="assignment" x="-102" y="-85">d = 0</label>
 		</transition>
 		<transition>
@@ -133,7 +133,7 @@ set_y = true</label>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id4"/>
-			<label kind="guard" x="-561" y="0">y == pid</label>
+			<label kind="guard" x="-595" y="0">y == pid</label>
 			<label kind="assignment" x="-552" y="17">d = 0</label>
 		</transition>
 		<transition>
