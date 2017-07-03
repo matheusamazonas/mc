@@ -71,6 +71,14 @@ clock d;</declaration>
 		</location>
 		<init ref="id13"/>
 		<transition>
+			<source ref="id11"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-229" y="-514">y != 0</label>
+			<label kind="assignment" x="-229" y="-480">d = 0</label>
+			<nail x="-229" y="-501"/>
+			<nail x="-229" y="-459"/>
+		</transition>
+		<transition>
 			<source ref="id0"/>
 			<target ref="id3"/>
 			<label kind="guard" x="-8" y="-191">d &gt; delta</label>
@@ -194,7 +202,7 @@ system P1,P2,P3;
 			</comment>
 		</query>
 		<query>
-			<formula>A[] (P1.s3 imply (x == 1 imply ((y != 0) and ((P2.s0 or P2.s1 or P2.s2 or P2.s3 or P2.s4 or P2.s5) or ((P2.s6 or P2.s10) and y != 2)))))
+			<formula>A[] (P1.s3 imply (x == 1 imply ((y != 0) and ((P2.remainder or P2.s0 or P2.s1 or P2.s2 or P2.s3 or P2.s4 or P2.s5) or ((P2.s6 or P2.s10) and y != 2)))))
 			</formula>
 			<comment>Property from Figure 4, (3)
 			</comment>
@@ -212,15 +220,15 @@ system P1,P2,P3;
 			</comment>
 		</query>
 		<query>
-			<formula>A[] (P1.s8 imply ((y != 0) imply (((P2.s0 or P2.s1) or (x != 2 and (P2.s2 or P2.s3 or P2.s4 or P2.s5) or ((P2.s6 or P2.s10) and y != 2) ) ) ) ))
+			<formula>A[] (P1.s8 imply ((y != 0) imply (((P2. remainder or P2.s0 or P2.s1) or (x != 2 and (P2.s2 or P2.s3 or P2.s4 or P2.s5) or ((P2.s6 or P2.s10) and y != 2) ) ) ) ))
 			</formula>
 			<comment>Property from Figure 4, (8)
 			</comment>
 		</query>
 		<query>
-			<formula>A[] (P1.cs imply (((z and y != 0 and ((P2.s0 or P2.s1) or (x != 2 and (P2.s2 or P2.s3 or P2.s4 or P2.s5 or P2.s6 or P2.s7) or (y != 2 and P2.s10))))
+			<formula>A[] (P1.cs imply (((z and y != 0 and ((P2.remainder or P2.s0 or P2.s1) or (x != 2 and (P2.s2 or P2.s3 or P2.s4 or P2.s5 or P2.s6 or P2.s7) or (y != 2 and P2.s10))))
 or
-((not z) and y == 1 and (P2.s0 or P2.s1 or P2.s4 or P2.s5 or P2.s6 or P2.s10)))))
+((not z) and y == 1 and (P2.remainder or P2.s0 or P2.s1 or P2.s4 or P2.s5 or P2.s6 or P2.s10)))))
 			</formula>
 			<comment>Property from Figure 4, (9)
 			</comment>
