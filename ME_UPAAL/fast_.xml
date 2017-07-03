@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+int x;
+int y = 0;
+bool z = false;
+
+const int N = 4;
+const int delta = 2;
+
+</declaration>
+	<template>
+		<name x="5" y="5">P</name>
+		<parameter>const int[1,N] pid</parameter>
+		<declaration>// Place local declarations here.
+
+clock d;</declaration>
+		<location id="id0" x="-280" y="-357">
+			<name x="-289" y="-365">s1</name>
+			<label kind="invariant" x="-382" y="-365">d &lt;= delta</label>
+		</location>
+		<location id="id1" x="-136" y="-60">
+			<name x="-119" y="-68">await_not_z</name>
+			<label kind="invariant" x="-119" y="-51">d &lt;= delta</label>
+		</location>
+		<location id="id2" x="-136" y="-153">
+			<label kind="invariant" x="-229" y="-162">d &lt;= delta</label>
+		</location>
+		<location id="id3" x="-595" y="42">
+			<label kind="invariant" x="-605" y="59">d &lt;= delta</label>
+		</location>
+		<location id="id4" x="-459" y="42">
+			<label kind="invariant" x="-493" y="59">d &lt;= delta</label>
+		</location>
+		<location id="id5" x="-280" y="42">
+			<label kind="invariant" x="-290" y="59">d &lt;= delta</label>
+		</location>
+		<location id="id6" x="-280" y="-60">
+			<name x="-314" y="-68">cs</name>
+		</location>
+		<location id="id7" x="-136" y="-255">
+		</location>
+		<location id="id8" x="-280" y="-153">
+			<name x="-289" y="-161">s3</name>
+			<label kind="invariant" x="-374" y="-162">d &lt;= delta</label>
+		</location>
+		<location id="id9" x="-280" y="-255">
+			<name x="-289" y="-263">s2</name>
+			<label kind="invariant" x="-373" y="-264">d &lt;= delta</label>
+		</location>
+		<location id="id10" x="-280" y="-467">
+			<name x="-289" y="-476">s0</name>
+		</location>
+		<location id="id11" x="-451" y="-467">
+			<label kind="invariant" x="-485" y="-450">d &lt;= delta</label>
+		</location>
+		<location id="id12" x="-595" y="-467">
+			<name x="-688" y="-476">remainder</name>
+		</location>
+		<init ref="id12"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id9"/>
+			<label kind="assignment" x="-331" y="-323">d = 0,
+y = pid</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-221" y="-552">y != pid</label>
+			<nail x="59" y="-153"/>
+			<nail x="59" y="-527"/>
+			<nail x="-595" y="-527"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-238" y="-60">z == false</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-127" y="-119">y == pid</label>
+			<label kind="assignment" x="-127" y="-102">d = 0</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-127" y="-221">d &gt; 2*delta</label>
+			<label kind="assignment" x="-119" y="-204">d = 0</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-510" y="-204">y != pid</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id12"/>
+			<label kind="assignment" x="-646" y="-212">y = 0</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-561" y="0">y == pid</label>
+			<label kind="assignment" x="-552" y="17">d = 0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="assignment" x="-382" y="42">z = false,
+d = 0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="-331" y="-26">d = 0</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="-340" y="-119">z = true</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-357" y="-230">x == pid</label>
+			<label kind="assignment" x="-348" y="-213">d = 0</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-229" y="-298">x != pid</label>
+			<label kind="assignment" x="-221" y="-281">d = 0</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-340" y="-425">y == 0</label>
+			<label kind="assignment" x="-331" y="-408">d = 0</label>
+			<nail x="-280" y="-399"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="assignment" x="-383" y="-510">d = 0,
+x = pid</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="assignment" x="-553" y="-493">d = 0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = P(1);
+P2 = P(2);
+P3 = P(3);
+P4 = P(4);
+P5 = P(5);
+P6 = P(6);
+// List one or more processes to be composed into a system.
+system P1,P2,P3,P4;
+    </system>
+	<queries>
+		<query>
+			<formula>A[] P1.cs + P2.cs + P3.cs + P4.cs &lt;= 1
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
+	</queries>
+</nta>
