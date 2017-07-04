@@ -3,7 +3,7 @@
 <nta>
 	<declaration>// Place global declarations here.
 
-const int N = 4;
+const int N = 7;
 const int delta = 2;
 
 typedef scalar[N] proc_id;
@@ -22,27 +22,27 @@ bool set_y = false;
 
 clock d;</declaration>
 		<location id="id0" x="-8" y="-255">
-			<name x="-17" y="-263">s5</name>
+			<name x="8" y="-263">s5</name>
 			<label kind="invariant" x="-8" y="-289">d &lt;= delta*2</label>
 		</location>
 		<location id="id1" x="-280" y="-357">
-			<name x="-289" y="-365">s2</name>
+			<name x="-263" y="-365">s2</name>
 			<label kind="invariant" x="-382" y="-365">d &lt;= delta</label>
 		</location>
 		<location id="id2" x="-136" y="-60">
-			<name x="-144" y="-68">s7</name>
+			<name x="-144" y="-42">s7</name>
 			<label kind="invariant" x="-170" y="-25">d &lt;= delta</label>
 		</location>
 		<location id="id3" x="-8" y="-59">
-			<name x="-17" y="-68">s6</name>
+			<name x="8" y="-85">s6</name>
 			<label kind="invariant" x="-51" y="-42">d &lt;= delta</label>
 		</location>
 		<location id="id4" x="-595" y="42">
-			<name x="-612" y="34">s11</name>
+			<name x="-637" y="34">s11</name>
 			<label kind="invariant" x="-605" y="59">d &lt;= delta</label>
 		</location>
 		<location id="id5" x="-459" y="42">
-			<name x="-467" y="34">s10</name>
+			<name x="-459" y="8">s10</name>
 			<label kind="invariant" x="-493" y="59">d &lt;= delta</label>
 		</location>
 		<location id="id6" x="-280" y="42">
@@ -60,14 +60,14 @@ clock d;</declaration>
 			<label kind="invariant" x="-374" y="-162">d &lt;= delta</label>
 		</location>
 		<location id="id10" x="-280" y="-255">
-			<name x="-289" y="-263">s3</name>
+			<name x="-272" y="-246">s3</name>
 			<label kind="invariant" x="-373" y="-264">d &lt;= delta</label>
 		</location>
 		<location id="id11" x="-280" y="-467">
-			<name x="-289" y="-476">s1</name>
+			<name x="-289" y="-501">s1</name>
 		</location>
 		<location id="id12" x="-451" y="-467">
-			<name x="-459" y="-476">s0</name>
+			<name x="-459" y="-501">s0</name>
 			<label kind="invariant" x="-485" y="-450">d &lt;= delta</label>
 		</location>
 		<location id="id13" x="-595" y="-467">
