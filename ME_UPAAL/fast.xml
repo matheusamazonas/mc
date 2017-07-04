@@ -56,7 +56,7 @@ clock d;</declaration>
 			<label kind="invariant" x="-170" y="-238">d &lt;= delta*2</label>
 		</location>
 		<location id="id9" x="-280" y="-153">
-			<name x="-289" y="-161">s8</name>
+			<name x="-263" y="-161">s8</name>
 			<label kind="invariant" x="-374" y="-162">d &lt;= delta</label>
 		</location>
 		<location id="id10" x="-280" y="-255">
