@@ -45,6 +45,7 @@ clock d;</declaration>
 			<label kind="invariant" x="-493" y="59">d &lt;= delta</label>
 		</location>
 		<location id="id6" x="-280" y="42">
+			<name x="-255" y="34">s9</name>
 			<label kind="invariant" x="-290" y="59">d &lt;= delta</label>
 		</location>
 		<location id="id7" x="-280" y="-60">
