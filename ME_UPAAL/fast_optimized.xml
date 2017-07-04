@@ -3,7 +3,7 @@
 <nta>
 	<declaration>// Place global declarations here.
 
-const int N = 7;
+const int N = 3;
 const int delta = 2;
 
 typedef scalar[N] proc_id;
@@ -31,7 +31,6 @@ clock d;</declaration>
 		</location>
 		<location id="id2" x="-136" y="-60">
 			<name x="-144" y="-42">s7</name>
-			<label kind="invariant" x="-170" y="-25">d &lt;= delta</label>
 		</location>
 		<location id="id3" x="-8" y="-59">
 			<name x="8" y="-85">s6</name>
